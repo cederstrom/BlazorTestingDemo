@@ -1,0 +1,13 @@
+#Editor config
+.idea/
+.vs/
+.vscode/
+
+bin/
+obj/
+riderModule.iml
+/_ReSharper.Caches/
+*.user
+coverage.cobertura.xml
+*.orig
+.DS_Store

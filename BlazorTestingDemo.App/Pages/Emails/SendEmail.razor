@@ -1,0 +1,55 @@
+@page "/email/send"
+@using Microsoft.AspNetCore.Components
+@using BlazorTestingDemo.Core.Models
+@using BlazorTestingDemo.Core.Services
+
+@inject IEmailService EmailService
+
+<PageTitle>Send email</PageTitle>
+
+<h1>Send email</h1>
+
+<EditForm Model="@_email" OnSubmit="@HandleSubmit">
+    <dl>
+        <dt>To address</dt>
+        <dd><InputText @bind-Value="_email.ToAddress" data-testid="to-address-input"/></dd>
+
+        <dt>From address</dt>
+        <dd><InputText @bind-Value="_email.FromAddress" data-testid="from-address-input"/></dd>
+
+        <dt>Subject</dt>
+        <dd><InputText @bind-Value="_email.Subject" data-testid="subject-input"/></dd>
+
+        <dt>Body</dt>
+        <dd><InputText @bind-Value="_email.Body" data-testid="body-input"/></dd>
+    </dl>
+
+    <button type="submit" data-testid="submit-button">Submit</button>
+</EditForm>
+<br/>
+
+@if (_sendStatus.HasValue)
+{
+    <div data-testid="status-message">
+        @if (_sendStatus == true)
+        {
+            <strong>Success!</strong>
+        }
+        else
+        {
+            <strong>Sorry, could not send the email</strong>
+        }
+    </div>
+}
+
+@code {
+
+    private readonly Email _email = new();
+    private bool? _sendStatus;
+
+    private void HandleSubmit()
+    {
+        _sendStatus = EmailService.SendEmail(_email);
+    }
+
+}
